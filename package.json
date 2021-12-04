@@ -1,0 +1,23 @@
+{
+    "name": "com.magistrbyte.lotus.unity.math",
+    "version": "1.0.0",
+    "displayName": "Lotus.Unity.Math",
+    "description": "Lotus Math library for Unity",
+    "unity": "2019.1",
+    "keywords":
+    [
+        "Math"
+    ],
+    "author":
+    {
+        "name": "MagistrBYTE",
+        "email": "dementevds@gmail.com"
+    },
+
+    "dependencies":
+    {
+        "com.magistrbyte.lotus.unity.core": "1.0.0",
+    },
+
+    "type": "library"
+}

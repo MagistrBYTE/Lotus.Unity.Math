@@ -1,0 +1,16 @@
+{
+    "name": "Lotus.Unity.Math",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0cf8b5180e88cd746bfd0eec8ee8d629"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
