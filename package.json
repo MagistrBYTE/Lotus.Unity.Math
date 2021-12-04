@@ -16,7 +16,7 @@
 
     "dependencies":
     {
-        "com.magistrbyte.lotus.unity.core": "1.0.0",
+        "com.magistrbyte.lotus.unity.core": "1.0.0"
     },
 
     "type": "library"
