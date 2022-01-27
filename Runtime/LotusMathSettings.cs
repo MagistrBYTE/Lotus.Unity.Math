@@ -31,11 +31,6 @@ namespace Lotus
 		{
 #if UNITY_2017_1_OR_NEWER
 			/// <summary>
-			/// Относительный путь директории исходного кода модуля математической системы
-			/// </summary>
-			public const String SourcePath = XEditorSettings.SourceBasisPath + "Math/";
-
-			/// <summary>
 			/// Путь в размещении меню редактора модуля математической системы (для упорядочивания)
 			/// </summary>
 			public const String MenuPath = XEditorSettings.MenuPlace + "Math/";

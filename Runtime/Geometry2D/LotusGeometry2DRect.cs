@@ -10,21 +10,19 @@
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Globalization;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Geometry2D
+		//! \addtogroup MathGeometry2D
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -66,10 +64,10 @@ namespace Lotus
 			{
 				Rect2D rect = new Rect2D();
 				String[] rect_data = data.Split(';');
-				rect.X = XNumbers.ParseDouble(rect_data[0]);
-				rect.Y = XNumbers.ParseDouble(rect_data[1]);
-				rect.Width = XNumbers.ParseDouble(rect_data[2]);
-				rect.Height = XNumbers.ParseDouble(rect_data[3]);
+				rect.X = XMath.ParseDouble(rect_data[0]);
+				rect.Y = XMath.ParseDouble(rect_data[1]);
+				rect.Width = XMath.ParseDouble(rect_data[2]);
+				rect.Height = XMath.ParseDouble(rect_data[3]);
 				return rect;
 			}
 
@@ -796,10 +794,10 @@ namespace Lotus
 			{
 				Rect2Df rect = new Rect2Df();
 				String[] rect_data = data.Split(';');
-				rect.X = XNumbers.ParseSingle(rect_data[0]);
-				rect.Y = XNumbers.ParseSingle(rect_data[1]);
-				rect.Width = XNumbers.ParseSingle(rect_data[2]);
-				rect.Height = XNumbers.ParseSingle(rect_data[3]);
+				rect.X = XMath.ParseSingle(rect_data[0]);
+				rect.Y = XMath.ParseSingle(rect_data[1]);
+				rect.Width = XMath.ParseSingle(rect_data[2]);
+				rect.Height = XMath.ParseSingle(rect_data[3]);
 				return rect;
 			}
 			#endregion

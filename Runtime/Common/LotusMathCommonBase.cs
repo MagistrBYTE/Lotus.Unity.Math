@@ -1,32 +1,32 @@
 ﻿//=====================================================================================================================
 // Проект: LotusPlatform
 // Раздел: Модуль математической системы
+// Подраздел: Общая математическая подсистема
 // Автор: MagistrBYTE aka DanielDem <dementevds@gmail.com>
 //---------------------------------------------------------------------------------------------------------------------
-/** \file LotusMathEx.cs
+/** \file LotusMathCommonBase.cs
 *		Основные математические методы и функции.
 *		Реализация базовых и вспомогательных методов для работы с математикой и вещественным типом двойной точности.
 *		Необходимость обусловлена применением в ряде будущих проектов вычислений с большими значениями. Также реализованы
-*	методы интерполяция промежуточных значений величины и решение различных математических уравнений, систем уравнений,
-*	в том числе квадратных и биквадратных.
+*	методы интерполяция промежуточных значений величины.
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Xml;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Math
+		//! \addtogroup MathCommon
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -198,6 +198,21 @@ namespace Lotus
 			#endregion
 
 			#region ======================================= ОБЩИЕ МЕТОДЫ ==============================================
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Обмен значениями двух объектов
+			/// </summary>
+			/// <typeparam name="TType">Тип объекта</typeparam>
+			/// <param name="left">Первое значение</param>
+			/// <param name="right">Второе значение</param>
+			//---------------------------------------------------------------------------------------------------------
+			public static void Swap<TType>(ref TType left, ref TType right)
+			{
+				TType temp = left;
+				left = right;
+				right = temp;
+			}
+
 			//---------------------------------------------------------------------------------------------------------
 			/// <summary>
 			/// Проверка на нулевое значение
@@ -610,48 +625,235 @@ namespace Lotus
 			}
 			#endregion
 
-			#region ======================================= МЕТОДЫ РЕШЕНИЙ УРАВНЕНИЙ ==================================
+			#region ======================================= Int32 =====================================================
 			//---------------------------------------------------------------------------------------------------------
 			/// <summary>
-			/// Решение квадратного уравнения ax2 + bx + c = 0
+			/// Преобразование текста в число
 			/// </summary>
-			/// <param name="a">Параметр a</param>
-			/// <param name="b">Параметр b</param>
-			/// <param name="c">Параметр c</param>
-			/// <param name="x1">Корень уравнения x1</param>
-			/// <param name="x2">Корень уравнения x2</param>
-			/// <returns>
-			/// -1 - Корней нет
-			/// 0 - Один корень
-			/// 1 - Два корня
-			/// </returns>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
 			//---------------------------------------------------------------------------------------------------------
-			public static Int32 SolveQuadraticEquation(Double a, Double b, Double c, out Double x1, out Double x2)
+			public static Int32 ParseInt(String text, Int32 default_value = 0)
 			{
-				// Дискриминант
-				Double d = b * b - 4 * a * c;
+				if (Int32.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out default_value))
+				{
 
-				if (d < 0)
-				{
-					x1 = 0;
-					x2 = 0;
-					return -1;
 				}
-				else
+
+				return default_value;
+			}
+			#endregion
+
+			#region ======================================= Int64 =====================================================
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование текста в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Int64 ParseLong(String text, Int64 default_value = 0)
+			{
+				if (Int64.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out default_value))
 				{
-					if (XMath.Approximately(d, 0.0))
-					{
-						x1 = -b / 2 * a;
-						x2 = x1;
-						return 0;
-					}
-					else
-					{
-						x1 = (-b + d) / 2 * a;
-						x2 = (-b - d) / 2 * a;
-						return 1;
-					}
+
 				}
+
+				return default_value;
+			}
+			#endregion
+
+			#region ======================================= Single ====================================================
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование текста в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Single ParseSingle(String text, Single default_value = 0)
+			{
+				if (text.IndexOf(',') > -1)
+				{
+					text = text.Replace(',', '.');
+				}
+
+				if (Single.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out default_value))
+				{
+
+				}
+
+				return default_value;
+			}
+			#endregion
+
+			#region ======================================= Double ====================================================
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование текста в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Double ParseDouble(String text, Double default_value = 0)
+			{
+				if (text.IndexOf(',') > -1)
+				{
+					text = text.Replace(',', '.');
+				}
+
+				if (Double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out default_value))
+				{
+
+				}
+
+				return default_value;
+			}
+
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование форматированного текста в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Double ParseDoubleFormat(String text, Double default_value = 0)
+			{
+				StringBuilder number = new StringBuilder(text.Length);
+
+				for (Int32 i = 0; i < text.Length; i++)
+				{
+					Char c = text[i];
+
+					if (c == '-')
+					{
+						number.Append(c);
+						continue;
+					}
+
+					if (c == ',' || c == '.')
+					{
+						if (i != text.Length - 1)
+						{
+							number.Append('.');
+						}
+						continue;
+					}
+
+					if (c >= '0' && c <= '9')
+					{
+						number.Append(c);
+						continue;
+					}
+
+				}
+
+				if (Double.TryParse(number.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out default_value))
+				{
+
+				}
+
+				return default_value;
+			}
+
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование форматированного текста в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="result">Значение</param>
+			/// <returns>Статус успешности преобразования</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Boolean ParseDoubleFormat(String text, out Double result)
+			{
+				StringBuilder number = new StringBuilder(text.Length);
+
+				for (Int32 i = 0; i < text.Length; i++)
+				{
+					Char c = text[i];
+
+					if (c == '-')
+					{
+						number.Append(c);
+						continue;
+					}
+
+					if (c == ',' || c == '.')
+					{
+						if (i != text.Length - 1)
+						{
+							number.Append('.');
+						}
+						continue;
+					}
+
+					if (c >= '0' && c <= '9')
+					{
+						number.Append(c);
+						continue;
+					}
+
+				}
+
+				if (Double.TryParse(number.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out result))
+				{
+					return (true);
+				}
+
+				return (false);
+			}
+			#endregion
+
+			#region ======================================= Decimal ===================================================
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование текста в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Decimal ParseDecimal(String text, Decimal default_value = 0)
+			{
+				if (text.IndexOf(',') > -1)
+				{
+					text = text.Replace(',', '.');
+				}
+
+				if (Decimal.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out default_value))
+				{
+
+				}
+
+				return default_value;
+			}
+
+			//---------------------------------------------------------------------------------------------------------
+			/// <summary>
+			/// Преобразование текста, представленного как отображение валюты, в число
+			/// </summary>
+			/// <param name="text">Текст</param>
+			/// <param name="default_value">Значение по умолчанию если преобразовать не удалось</param>
+			/// <returns>Значение</returns>
+			//---------------------------------------------------------------------------------------------------------
+			public static Decimal ParseCurrency(String text, Decimal default_value = 0)
+			{
+				if (text.IndexOf(',') > -1)
+				{
+					text = text.Replace(',', '.');
+				}
+
+				if (Decimal.TryParse(text, NumberStyles.Currency, CultureInfo.InvariantCulture, out default_value))
+				{
+
+				}
+
+				return default_value;
 			}
 			#endregion
 		}

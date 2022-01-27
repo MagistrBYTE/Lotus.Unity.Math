@@ -11,20 +11,18 @@
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Geometry3D
+		//! \addtogroup MathGeometry3D
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -161,10 +159,10 @@ namespace Lotus
 			{
 				Vector4D vector = new Vector4D();
 				String[] vector_data = data.Split(';');
-				vector.X = XNumbers.ParseDouble(vector_data[0]);
-				vector.Y = XNumbers.ParseDouble(vector_data[1]);
-				vector.Z = XNumbers.ParseDouble(vector_data[2]);
-				vector.W = XNumbers.ParseDouble(vector_data[3]);
+				vector.X = XMath.ParseDouble(vector_data[0]);
+				vector.Y = XMath.ParseDouble(vector_data[1]);
+				vector.Z = XMath.ParseDouble(vector_data[2]);
+				vector.W = XMath.ParseDouble(vector_data[3]);
 				return vector;
 			}
 			#endregion

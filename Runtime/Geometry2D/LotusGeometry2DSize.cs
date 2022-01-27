@@ -10,21 +10,19 @@
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Globalization;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Geometry2D
+		//! \addtogroup MathGeometry2D
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -83,8 +81,8 @@ namespace Lotus
 			{
 				Size2D size = new Size2D();
 				String[] size_data = data.Split(';');
-				size.Width = XNumbers.ParseDouble(size_data[0]);
-				size.Height = XNumbers.ParseDouble(size_data[1]);
+				size.Width = XMath.ParseDouble(size_data[0]);
+				size.Height = XMath.ParseDouble(size_data[1]);
 				return size;
 			}
 			#endregion
@@ -602,8 +600,8 @@ namespace Lotus
 			{
 				Size2Df size = new Size2Df();
 				String[] size_data = data.Split(';');
-				size.Width = XNumbers.ParseSingle(size_data[0]);
-				size.Height = XNumbers.ParseSingle(size_data[1]);
+				size.Width = XMath.ParseSingle(size_data[0]);
+				size.Height = XMath.ParseSingle(size_data[1]);
 				return size;
 			}
 			#endregion

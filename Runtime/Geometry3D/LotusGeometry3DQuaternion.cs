@@ -10,20 +10,18 @@
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Geometry3D
+		//! \addtogroup MathGeometry3D
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -170,10 +168,10 @@ namespace Lotus
 			{
 				Quaternion3D quaternion = new Quaternion3D();
 				String[] quaternion_data = data.Split(';');
-				quaternion.X = XNumbers.ParseDouble(quaternion_data[0]);
-				quaternion.Y = XNumbers.ParseDouble(quaternion_data[1]);
-				quaternion.Z = XNumbers.ParseDouble(quaternion_data[2]);
-				quaternion.W = XNumbers.ParseDouble(quaternion_data[3]);
+				quaternion.X = XMath.ParseDouble(quaternion_data[0]);
+				quaternion.Y = XMath.ParseDouble(quaternion_data[1]);
+				quaternion.Z = XMath.ParseDouble(quaternion_data[2]);
+				quaternion.W = XMath.ParseDouble(quaternion_data[3]);
 				return quaternion;
 			}
 			#endregion
@@ -994,10 +992,10 @@ namespace Lotus
 			{
 				Quaternion3Df quaternion = new Quaternion3Df();
 				String[] quaternion_data = data.Split(';');
-				quaternion.X = XNumbers.ParseSingle(quaternion_data[0]);
-				quaternion.Y = XNumbers.ParseSingle(quaternion_data[1]);
-				quaternion.Z = XNumbers.ParseSingle(quaternion_data[2]);
-				quaternion.W = XNumbers.ParseSingle(quaternion_data[3]);
+				quaternion.X = XMath.ParseSingle(quaternion_data[0]);
+				quaternion.Y = XMath.ParseSingle(quaternion_data[1]);
+				quaternion.Z = XMath.ParseSingle(quaternion_data[2]);
+				quaternion.W = XMath.ParseSingle(quaternion_data[3]);
 				return quaternion;
 			}
 			#endregion

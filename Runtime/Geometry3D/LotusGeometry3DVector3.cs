@@ -11,21 +11,19 @@
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Geometry3D
+		//! \addtogroup MathGeometry3D
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -229,9 +227,9 @@ namespace Lotus
 			{
 				Vector3D vector = new Vector3D();
 				String[] vector_data = data.Split(';');
-				vector.X = XNumbers.ParseDouble(vector_data[0]);
-				vector.Y = XNumbers.ParseDouble(vector_data[1]);
-				vector.Z = XNumbers.ParseDouble(vector_data[2]);
+				vector.X = XMath.ParseDouble(vector_data[0]);
+				vector.Y = XMath.ParseDouble(vector_data[1]);
+				vector.Z = XMath.ParseDouble(vector_data[2]);
 				return vector;
 			}
 			#endregion
@@ -1384,9 +1382,9 @@ namespace Lotus
 			{
 				Vector3Df vector = new Vector3Df();
 				String[] vector_data = data.Split(';');
-				vector.X = XNumbers.ParseSingle(vector_data[0]);
-				vector.Y = XNumbers.ParseSingle(vector_data[1]);
-				vector.Z = XNumbers.ParseSingle(vector_data[2]);
+				vector.X = XMath.ParseSingle(vector_data[0]);
+				vector.Y = XMath.ParseSingle(vector_data[1]);
+				vector.Z = XMath.ParseSingle(vector_data[2]);
 				return vector;
 			}
 			#endregion

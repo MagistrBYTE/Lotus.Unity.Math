@@ -10,18 +10,16 @@
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
-// Последнее изменение от 04.04.2021
+// Последнее изменение от 30.01.2022
 //=====================================================================================================================
 using System;
-//---------------------------------------------------------------------------------------------------------------------
-using Lotus.Core;
 //=====================================================================================================================
 namespace Lotus
 {
 	namespace Maths
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//! \addtogroup Geometry2D
+		//! \addtogroup MathGeometry2D
 		/*@{*/
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -593,7 +591,7 @@ namespace Lotus
 					Vector2Df segment_end_to_pos;
 					if (!codirected)
 					{
-						XObject.Swap(ref start, ref end);
+						XMath.Swap(ref start, ref end);
 						segment_direction = -segment_direction;
 						segment_end_to_pos = segment_start_to_pos;
 						segment_start_to_pos = ray_pos - start;
@@ -902,7 +900,7 @@ namespace Lotus
 					Vector2Df from1ATo2B;
 					if (!codirected)
 					{
-						XObject.Swap(ref segment2_start, ref segment2_end);
+						XMath.Swap(ref segment2_start, ref segment2_end);
 						direction2 = -direction2;
 						from1ATo2B = -from_2start_to_1start;
 						from_2start_to_1start = segment1_start - segment2_start;

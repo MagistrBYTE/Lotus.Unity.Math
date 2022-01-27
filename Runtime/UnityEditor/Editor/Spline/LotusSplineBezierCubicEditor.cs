@@ -62,7 +62,7 @@ public class LotusSplineBezierCubicEditor : LotusSplineBaseEditor<LotusSplineBez
 			mSpline.SegmentsSpline = XEditorInspector.PropertyInt(nameof(mSpline.SegmentsSpline), mSpline.SegmentsSpline);
 
 			GUILayout.Space(2.0f);
-			mSpline.SnapPlane = (TDimensionPlaneSelect)XEditorInspector.PropertyEnum(nameof(mSpline.SnapPlane), mSpline.SnapPlane);
+			mSpline.SnapPlane = (Lotus.Maths.TDimensionPlaneSelect)XEditorInspector.PropertyEnum(nameof(mSpline.SnapPlane), mSpline.SnapPlane);
 
 			GUILayout.Space(2.0f);
 			EditorGUILayout.LabelField(nameof(mSpline.Length), mSpline.Length.ToString("F2"));

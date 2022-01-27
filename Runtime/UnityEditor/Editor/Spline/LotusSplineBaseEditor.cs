@@ -82,15 +82,15 @@ public class LotusSplineBaseEditor<TTypeSpline> : Editor where TTypeSpline : Lot
 			{
 				switch (mSpline.SnapPlane)
 				{
-					case TDimensionPlaneSelect.None:
+					case Lotus.Maths.TDimensionPlaneSelect.None:
 						break;
-					case TDimensionPlaneSelect.XZ:
+					case Lotus.Maths.TDimensionPlaneSelect.XZ:
 						position_new = new Vector3(position_new.x, position_old.y, position_new.z);
 						break;
-					case TDimensionPlaneSelect.XY:
+					case Lotus.Maths.TDimensionPlaneSelect.XY:
 						position_new = new Vector3(position_new.x, position_new.y, position_old.z);
 						break;
-					case TDimensionPlaneSelect.ZY:
+					case Lotus.Maths.TDimensionPlaneSelect.ZY:
 						position_new = new Vector3(position_old.x, position_new.y, position_new.z);
 						break;
 					default:
@@ -313,20 +313,20 @@ public class LotusSplineBaseEditor<TTypeSpline> : Editor where TTypeSpline : Lot
 
 		// Строим плоскость
 		Plane plane = new Plane();
-		TDimensionPlaneSelect plane_create = mSpline.SnapPlane;
+		Lotus.Maths.TDimensionPlaneSelect plane_create = mSpline.SnapPlane;
 		switch (plane_create)
 		{
-			case TDimensionPlaneSelect.XZ:
+			case Lotus.Maths.TDimensionPlaneSelect.XZ:
 				{
 					plane = new Plane(Vector3.up, Vector3.zero);
 				}
 				break;
-			case TDimensionPlaneSelect.XY:
+			case Lotus.Maths.TDimensionPlaneSelect.XY:
 				{
 					plane = new Plane(Vector3.forward, Vector3.zero);
 				}
 				break;
-			case TDimensionPlaneSelect.ZY:
+			case Lotus.Maths.TDimensionPlaneSelect.ZY:
 				{
 					plane = new Plane(Vector3.right, Vector3.zero);
 				}
@@ -426,7 +426,7 @@ public class LotusSplineBaseEditor<TTypeSpline> : Editor where TTypeSpline : Lot
 			mSpline.SegmentsSpline = XEditorInspector.PropertyInt(nameof(mSpline.SegmentsSpline), mSpline.SegmentsSpline);
 
 			GUILayout.Space(2.0f);
-			mSpline.SnapPlane = (TDimensionPlaneSelect)XEditorInspector.PropertyEnum(nameof(mSpline.SnapPlane), mSpline.SnapPlane);
+			mSpline.SnapPlane = (Lotus.Maths.TDimensionPlaneSelect)XEditorInspector.PropertyEnum(nameof(mSpline.SnapPlane), mSpline.SnapPlane);
 
 			GUILayout.Space(2.0f);
 			EditorGUILayout.LabelField(nameof(mSpline.Length), mSpline.Length.ToString("F2"));
