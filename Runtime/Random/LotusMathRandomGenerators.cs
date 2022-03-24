@@ -202,13 +202,13 @@ namespace Lotus
 				UInt32[] seed_key = new UInt32[6];
 				Byte[] rnseed = new Byte[8];
 
-				seed_key[0] = (UInt32)System.DateTime.Now.Millisecond;
-				seed_key[1] = (UInt32)System.DateTime.Now.Second;
-				seed_key[2] = (UInt32)System.DateTime.Now.DayOfYear;
-				seed_key[3] = (UInt32)System.DateTime.Now.Year;
+				seed_key[0] = (UInt32)System.DateTime.UtcNow.Millisecond;
+				seed_key[1] = (UInt32)System.DateTime.UtcNow.Second;
+				seed_key[2] = (UInt32)System.DateTime.UtcNow.DayOfYear;
+				seed_key[3] = (UInt32)System.DateTime.UtcNow.Year;
 
-				System.Security.Cryptography.RandomNumberGenerator rn
-					= new System.Security.Cryptography.RNGCryptoServiceProvider();
+				System.Security.Cryptography.RandomNumberGenerator rn =
+					System.Security.Cryptography.RandomNumberGenerator.Create();
 				rn.GetNonZeroBytes(rnseed);
 
 				seed_key[4] = ((UInt32)rnseed[0] << 24) | ((UInt32)rnseed[1] << 16)
@@ -217,10 +217,6 @@ namespace Lotus
 					| ((UInt32)rnseed[6] << 8) | (UInt32)rnseed[7];
 
 				InitFromArray(seed_key);
-
-				rn = null;
-				seed_key = null;
-				rnseed = null;
 			}
 
 			//---------------------------------------------------------------------------------------------------------
