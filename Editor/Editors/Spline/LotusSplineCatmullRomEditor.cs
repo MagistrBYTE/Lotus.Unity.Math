@@ -4,14 +4,12 @@
 // Подраздел: Подсистема для работы со сплайнами
 // Автор: MagistrBYTE aka DanielDem <dementevds@gmail.com>
 //---------------------------------------------------------------------------------------------------------------------
-/** \file LotusSplineBezierPathEditor.cs
-*		Редактор компонента представляющий сплайн BezierPath.
+/** \file LotusSplineCatmullRomEditor.cs
+*		Редактор компонента представляющий сплайн CatmullRom.
 */
 //---------------------------------------------------------------------------------------------------------------------
 // Версия: 1.0.0.0
 // Последнее изменение от 27.03.2022
-//=====================================================================================================================
-#if UNITY_EDITOR
 //=====================================================================================================================
 using System;
 using UnityEditor;
@@ -23,15 +21,18 @@ using Lotus.Editor;
 //=====================================================================================================================
 //---------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Редактор компонента представляющий сплайн BezierPath
+/// Редактор компонента представляющий сплайн CatmullRom
 /// </summary>
 //---------------------------------------------------------------------------------------------------------------------
-[CustomEditor(typeof(LotusSplineBezierPath))]
-public class LotusSplineBezierPathEditor : LotusSplineBaseEditor<LotusSplineBezierPath>
+[CustomEditor(typeof(LotusSplineCatmullRom))]
+public class LotusSplineCatmullRomEditor : LotusSplineBaseEditor<LotusSplineCatmullRom>
 {
 	#region =============================================== СТАТИЧЕСКИЕ ДАННЫЕ ========================================
-	protected static readonly GUIContent mContentAddCurve = new GUIContent("Добавить кривую");
-	protected static readonly GUIContent mContentRemoveCurve = new GUIContent("Удалить последнюю кривую");
+	protected static readonly GUIContent mContentButtonFirst = new GUIContent("Добавить точку сначала");
+	protected static readonly GUIContent mContentButtonLast = new GUIContent("Добавить точку в конце");
+	protected static readonly GUIContent mContentButtonStop = new GUIContent("Стоп");
+	protected static readonly GUIContent mContentButtonInsertAfter = new GUIContent("Вставить точку после");
+	protected static readonly GUIContent mContentButtonInsertBefore = new GUIContent("Вставить точку до");
 	#endregion
 
 	#region =============================================== СОБЫТИЯ UNITY =============================================
@@ -74,15 +75,28 @@ public class LotusSplineBezierPathEditor : LotusSplineBaseEditor<LotusSplineBezi
 	protected override void OnMouseDownLeft()
 	{
 		Event current = Event.current;
-		Int32 selected = SelectPoint(current.mousePosition, Camera.current);
-		if (selected != -1)
+
+		// Если есть режим добавления
+		if (mAddPointMode != 0)
 		{
-			mSelectedIndexPoint = selected;
-			current.Use();
+			Vector3 result;
+			if (GetClickPoint(current.mousePosition, Camera.current, out result))
+			{
+				AddPoint(result);
+			}
 		}
 		else
 		{
-			mSelectedIndexPoint = -1;
+			Int32 selected = SelectPoint(current.mousePosition, Camera.current);
+			if (selected != -1)
+			{
+				mSelectedIndexPoint = selected;
+				current.Use();
+			}
+			else
+			{
+				mSelectedIndexPoint = -1;
+			}
 		}
 	}
 
@@ -93,10 +107,20 @@ public class LotusSplineBezierPathEditor : LotusSplineBaseEditor<LotusSplineBezi
 	//-----------------------------------------------------------------------------------------------------------------
 	protected override void OnMouseDownRight()
 	{
-
+		Event current = Event.current;
+		Int32 index = SelectPoint(current.mousePosition, Camera.current);
+		if (index != -1)
+		{
+			GenericMenu menu = new GenericMenu();
+			menu.AddItem(new GUIContent("Delete Point"), false, () => DeletePoint(index));
+			menu.AddItem(new GUIContent("Insert Before"), false, () => InsertBeforePoint(index));
+			menu.AddItem(new GUIContent("Insert After"), false, () => InsertAfterPoint(index));
+			menu.ShowAsContext();
+			current.Use();
+		}
 	}
 	#endregion
-
+	
 	#region =============================================== МЕТОДЫ РИСОВАНИЯ ==========================================
 	//-----------------------------------------------------------------------------------------------------------------
 	/// <summary>
@@ -111,73 +135,32 @@ public class LotusSplineBezierPathEditor : LotusSplineBaseEditor<LotusSplineBezi
 			XEditorInspector.DrawGroup(mContentGroupEditor);
 
 			GUILayout.Space(2.0f);
-			if (GUILayout.Button(mContentAddCurve))
+			Boolean is_last = GUILayout.Toggle(mAddPointMode == 1, mAddPointMode == 1 ? mContentButtonStop : mContentButtonFirst);
+			if (is_last) mAddPointMode = 1;
+
+			GUILayout.Space(2.0f);
+			Boolean is_first = GUILayout.Toggle(mAddPointMode == 2, mAddPointMode == 2 ? mContentButtonStop : mContentButtonLast);
+			if (is_first) mAddPointMode = 2;
+
+			if (!is_last && !is_first) mAddPointMode = 0;
+
+			GUILayout.Space(2.0f);
+			if (GUILayout.Button(mContentButtonInsertAfter))
 			{
-				mSpline.AddCurve();
+				InsertAfterPoint(mSelectedIndexPoint);
 			}
 
 			GUILayout.Space(2.0f);
-			if (GUILayout.Button(mContentRemoveCurve))
+			if (GUILayout.Button(mContentButtonInsertBefore))
 			{
-				mSpline.RemoveCurve();
-				if (mSelectedIndexPoint > mSpline.CountPoints)
-				{
-					mSelectedIndexPoint = mSpline.CountPoints - 1;
-				}
+				InsertBeforePoint(mSelectedIndexPoint);
 			}
 		}
 		if (EditorGUI.EndChangeCheck())
 		{
-			this.serializedObject.Save();
-		}
-	}
-
-	//-----------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// Рисование параметров редактирования контрольной точки
-	/// </summary>
-	//-----------------------------------------------------------------------------------------------------------------
-	protected override void DrawEditorPoint()
-	{
-		EditorGUI.BeginChangeCheck();
-		{
-			GUILayout.Space(4.0f);
-			XEditorInspector.DrawGroup(mContentGroupSelected);
-
-			if (mSelectedIndexPoint != -1)
-			{
-				GUILayout.Space(2.0f);
-				EditorGUILayout.LabelField("Selected point", mSelectedIndexPoint.ToString());
-
-				GUILayout.Space(2.0f);
-				GUI.changed = false;
-				mSelectedPoint = XEditorInspector.PropertyVector3D("World position", mSpline.GetControlPointWorld(mSelectedIndexPoint));
-				if (GUI.changed)
-				{
-					mSpline.SetControlPointWorld(mSelectedIndexPoint, mSelectedPoint, true);
-				}
-
-				if (mSpline.IsHandlePoint(mSelectedIndexPoint))
-				{
-					GUILayout.Space(2.0f);
-					EditorGUI.BeginChangeCheck();
-					TBezierHandleMode mode = (TBezierHandleMode)XEditorInspector.PropertyEnum("Mode", mSpline.GetHandleMode(mSelectedIndexPoint));
-					if (EditorGUI.EndChangeCheck())
-					{
-						Undo.RecordObject(mSpline, "Change Point Mode");
-						mSpline.SetHandleMode(mSelectedIndexPoint, mode);
-						this.serializedObject.Save();
-					}
-				}
-			}
-		}
-		if (EditorGUI.EndChangeCheck())
-		{
-			this.serializedObject.Save();
+			serializedObject.Save();
 		}
 	}
 	#endregion
 }
-//=====================================================================================================================
-#endif
 //=====================================================================================================================
